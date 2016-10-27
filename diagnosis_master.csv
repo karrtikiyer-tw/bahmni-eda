@@ -1,0 +1,379 @@
+unique(pat_diag_db.df$name)
+HIV Infection
+Diabetes Mellitus
+Chronic Obstructive Pulmonary Disease
+Hypertension
+Epilepsy
+Rheumatic Heart Disease
+Psychosis
+Filariasis
+Depression
+Gastritis
+Neurosis
+Psoriasis
+Rheumatoid Arthritis
+Upper Respiratory Tract Infection
+Abdominal Pain
+Ischemic Heart Disease
+Dermatitis
+Other Anxiety
+Arthritis
+Osteoarthritis
+Tuberculosis
+Prostatism
+Placenta praevia
+Malnutrition
+Schizophrenia
+Headache
+Haemorrhoids
+Backache
+Other Cardiovascular Problems
+Bronchial Asthma
+Vaginal Discharge Syndrome
+Pulpitis
+Cervical Cancer
+Fall
+Acute Suppurative Otitis Media
+Congestive Heart Failure
+Multiple gestation
+Chronic ulcer of skin NOS
+"Open wound, unspecified"
+Prolapsed Uterus
+Muscle spasm
+Hepatitis B
+Presumed Non<e2><80><90>Infectious Diarrhoea
+Parkinson's disease
+Dysfunctional Uterine Bleeding
+Hernia
+Dizziness and giddiness
+Urinary Tract Infection
+Mental Illness
+Migraine
+Fungal Infection
+Pneumonia
+Renal Stones
+Leprosy
+Acute Tonsilitis
+Burns And Scalds
+Pelvic Inflammatory Disease
+Acute Gastro<e2><80><90>Enteritis
+Lower Respiratory Tract Infection
+Acute Rheumatic Fever
+Scabies
+Addiction
+Nephrotic Syndrome
+Not Mentioned Above And Other
+Cholelithiasis
+Herpes Zoster
+ST elevation (STEMI) myocardial infarction of unspecified site
+Mastitis
+Other acute osteomyelitis
+Vitiligo
+"Fracture, unspecified"
+Amoebic Dysentery
+Chronic Suppurative Otitis Media
+Lower Abdominal Pain Syndrome
+Myalgia
+Cellulitis NOS
+Bipolar Affective Disorder
+Urticaria
+Typhoid
+Alopecia
+Anal Fistula
+Dog Bite
+Abscess
+Fungal Infection Lichen Planus
+Chronic sinusitis
+Pilonidal Sinus
+Impetigo
+Acute nasopharyngitis (Common cold)
+Polyneuritis
+Obsessive-Compulsive Disorder
+Pharyngitis
+Lumps
+Bronchitis (Acute & Chronic)
+Menstrual Disorder
+Intestinal Worms
+Unspecified infection of urinary tract in pregnancy
+Tinea corporis
+Pre<e2><80><90>Eclampsia
+Trigeminal neuralgia
+Soft tissue disorder NOS
+Mumps
+Road Traffic Accident
+Disorder of thyroid NOS
+Pyrexia Of Unknown Origin
+Pain in joint
+Conversive Disorder
+Lung Cancer
+Jaundice
+Sepsis NOS
+Pregnancy confirmed
+Chicken Pox
+"Fever, unspecified"
+Acne
+Cerebral infarction
+"Pleural effusion, not elsewhere classified"
+"Chest pain, unspecified"
+Medical abortion
+Dental Caries
+Foreign body or object entering through skin
+Severe Pneumonia
+Epididymitis
+Other and unspecified ovarian cysts
+Phobic Anxiety
+Epistaxis
+Constipation
+Phimosis
+Acute Renal Failure
+"Dysmenorrhea, unspecified"
+Acute Lymphadenitis
+Cholecystitis
+Reflux Laryngitis
+Impacted cerumen (Wax in ear)
+Rectal prolapse
+Acid Peptic Disorders
+Viral Influenza
+Allergic rhinitis
+Anaemia / Polyneuropathy
+Breast Lumps
+Mental Retardation
+Postpartum Haemorrhage
+Hydrocoele
+Dementia
+Other Disorder Of Teeth
+Deviated Nasal Septum
+Pyoderma
+Meningitis
+Bacillary Dysentery
+Single spontaneous delivery
+Aphthous Oral Ulcer
+Plasmodium Vivax
+Acute Encephalitis Like Syndrome
+Cataract
+Other Complications Of Labor And Delivery
+Cough
+Clinical Malaria
+Conjunctivitis
+Measles
+Anal Fissure
+Otitis Externa
+Cirrhosis Of Liver
+Pterygium
+Age Related Macular Degeneration
+Pityriasis versicolor
+Incomplete spontaneous abortion without complication
+"Cardiac murmur, unspecified"
+Leukoderma
+Encounter for general adult medical examination without abnormal findings
+Chronic gingivitis
+Foreign Body In Ear
+Sebaceous cyst
+Sprain of foot
+Supervision of normal pregnancy
+Urethral Discharge Syndrome
+Nephritis
+Giardiasis
+Rash and other nonspecific skin eruption
+Cracked tooth
+Chronic Renal Failure
+Unspecified hydronephrosis
+Periodontal Disease
+Candidal stomatitis
+Perforation of tympanic membrane
+Other specified superficial mycoses
+Cardiac Heart Failure
+Boils
+Candidiasis of vulva and vagina
+Sciatica
+Pneumothorax NOS
+Toothache
+Multi Drug Resistant Tuberculosis
+Refractive Error
+Encounter for screening for other musculoskeletal disorder
+Appendicitis
+Ganglion Cyst
+Inguinal Bubo Syndrome
+Dermatophytosis NOS
+Unspecified sexually transmitted disease
+Mastalgia Breast
+Scrotal Swelling Syndrome
+Costochondritis
+Avitaminoses & Other Nutrient Deficiency
+Tinea barbae and tinea capitis
+"Disorder of kidney and ureter, unspecified"
+Unspecified urinary incontinence
+Upper gastrointestinal bleeding (UGI bleed)
+Traumatic amputation of ankle and foot
+Other and unspecified injuries of head
+Herpes Simplex
+"Fracture, Type I with NPO"
+Kalaazar
+Other abortion
+"Other complications of surgical and medical care, not elsewhere classified"
+Obstructed Labor
+Furunculosis
+Volume Depletion
+Oral Space Infection And  Abscess
+Snake Bite: Non<e2><80><90>Poisonous
+Encounter for health supervision and care of other healthy infant and child
+Lower gastrointestinal bleeding (LGIB)
+Stye
+Plasmodium Falciparum
+Sub<e2><80><90>Fertility (Female)
+Abortion Complication
+Thyroid Cancer
+Syncope and collapse
+Infection of obstetric surgical wound
+Coagulation defect NOS
+Chronic rhinitis
+General counseling and advice on contraception
+Insect Bite
+Post Abortion Care
+"Angina pectoris, unspecified"
+Dengue Fever
+Reproductive Tract Infection-Male
+Ovary Cancer
+Nasal Polyps
+Medullary cystic kidney
+Threatened abortion
+Spontaneous abortion
+"Chronic kidney disease, unspecified"
+Antepartum Haemorrhage
+Acute gingivitis
+Hepatitis A
+Physical Disability
+Congenital talipes equinovarus
+"Shock, unspecified"
+Foreign Body In Throat
+Vomiting
+Adhesive capsulitis of shoulder
+Other and unspecified intestinal obstruction
+Other Rabies Susceptible Animal Bite
+Lymphoma Cancer
+Food allergy status
+Inflammatory disease of cervix uteri
+"Hydatidiform mole, unspecified"
+Malignant neoplasm NOS
+Disorder of eye and adnexa NOS
+Liver Cancer
+"Amenorrhoea, unspecified"
+Type 1 diabetes mellitus with ketoacidosis
+Disease of blood and blood-forming organs NOS
+Traumatic Eye Disease
+"Other maternal diseases classifiable elsewhere but complicating pregnancy, childbirth and the puerperium"
+Ectopic Pregnancy
+Sub<e2><80><90>Fertility (Male)
+Hypoglycemia NOS
+Neonatal Conjuctive Syndrome
+Twin pregnancy
+Imperforate hymen
+Chloasma
+Suicide attempt
+Follicular disorder NOS
+Genital Ulcer Disease Syndrome <e2><80><90> Female
+Candidiasis
+Antepartum Eclampsia
+Intrapartum Eclampsia
+Hypertrophic scar
+Premature separation of placenta (abruptio placentae)
+Single delivery by caesarean section
+Other assisted single delivery
+Other female intestinal-genital tract fistulae
+Spontaneous breech delivery
+Erythroderma
+Candidiasis NOS
+Osteoporosis NOS
+Stomach Cancer
+Other specified disorders of the skin and subcutaneous tissue
+"Impacted cerumen, unspecified ear"
+Vertigo of central origin
+Warts
+Head & Neck Cancer
+Retained Placenta
+Insomnia NOS
+"Injury of eye and orbit, unspecified"
+Syphilis NOS
+Pyelonephritis NOS
+Trachoma
+Tooth Impaction
+Toxic effect of other noxious substances eaten as food
+Other malaise and fatigue
+Hyperemesis Grivadarum
+"Lack of expected normal physiological development, unspecified"
+Traumatic transphalangeal amputation of other and unspecified finger
+"Gangrene, not elsewhere classified"
+Prolonged Labour
+Premature rupture of membranes
+Encounter for other general counseling and advice on contraception
+Palpitations
+"Disease of biliary tract, unspecified"
+Genital Ulcer Disease Syndrome <e2><80><90> Male
+Other specified forms of tremor
+Acute Flaccid Paralysis
+Foreign Body In Nose
+"Acute pericarditis, unspecified"
+"Disorder of male genital organs, unspecified"
+Chalazion
+Amblyopia
+Anogenital herpesviral infection NOS
+Other specified congenital malformations of female genitalia
+Ruptured Uterus
+"Goitre, Cretinism"
+Sacroiliitis
+Sleep disorder NOS
+Tetanus
+Hypothermia
+"Complications of internal orthopaedic prosthetic devices, implants and grafts"
+Breast Cancer
+"Multiple gestation, unspecified"
+Urinary Bladder Cancer
+Pueperal Sepsis
+Blindness
+Essential tremor
+Reproductive Tract Infection<e2><80><90>Female
+Albinism
+Bone  Marrow Cancer
+Night Blindness
+Cholera
+Insertion of (intrauterine) contraceptive device
+Diptheria
+Hypertensive Retinopathy
+Glaucoma
+"Malignant neoplasm, primary site unspecified"
+Ectropion
+Hypoplasia
+Nasopharyngeal Cancer
+Toxic Effect
+"Congenital malformation of heart, unspecified"
+Pregnancy Induced Hypertension
+Whooping Cough
+Obesity
+Snake Bite: Poisonous
+Oral Cancer
+"Encounter for supervision of normal first pregnancy, second trimester"
+Rubella
+"Encounter for supervision of normal first pregnancy, first trimester"
+Fistula Of Intestine
+Hepatitis E
+Triplet pregnancy
+Unspecified male sexual dysfunction
+Diabetic Retinopathy
+Multiple delivery
+Infection following a procedure
+Squint
+Retinoblastoma
+Complications of anaesthesia during labour and delivery
+"Hordeolum externum unspecified eye, unspecified eyelid"
+Traumatic amputation of one toe
+Other respiratory disorders
+Postpartum Eclampsia
+Pancreatic Cancer
+Neonatal Tetanus
+"Fracture, Type I without NPO - closed reduction"
+"Fracture, Type II - needs surgery"
+Inguinal hernia
+Oesophagus Cancer
+"Fracture, Closed Malunion"
+"Fracture, Closed Nonunion"
+Other gonococcal genitourinary infections
