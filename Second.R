@@ -1,5 +1,4 @@
-#con <- dbConnect(RMySQL::MySQL(), dbname = "openmrs", host = "localhost", port = 3306, user = "root", password="")
-#install.packages("install.load")
+install.packages("install.load")
 library(install.load)
 install_load("dplyr")
 install_load("stringr")
@@ -67,18 +66,43 @@ pat_across_region_gender<- patients %>%
                           group_by(city_village, gender) %>% 
                           summarise(PatCount = n()) %>% 
                           collect(n=Inf) %>% 
-                          inner_join(pat_across_region, by=c("city_village"="city_village")) %>%
-                          select(city_village, gender, PatCount)
+                          inner_join(pat_across_region, by=c("city_village"="city_village")) %>% 
+                          mutate(Percentage = round((PatCount/Count)*100,2)) %>% 
+                          select(city_village, gender, PatCount, Percentage)
 
 g1 <- ggplot(pat_across_region_gender, aes(x = reorder(city_village, -PatCount)))
 g1 <- g1 + geom_bar(aes(weight = PatCount, fill = gender))
 g1 <-
-  g1 + labs(title = "Region vs Patient Count", x = "Regoin", y =
-              " Patient Count")
+   g1 + labs(title = "Region vs Patient Count", x = "Region", y =
+               " Patient Count")
 g1 <- g1 + scale_y_continuous(labels = comma)
 g1 <- g1 + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-print(g1)
+g1
 
+#Percent plot
+g1.1 <- ggplot(pat_across_region_gender, aes(x=reorder(city_village, -PatCount),weight=PatCount, fill=gender))
+g1.1 <- g1.1 + geom_bar(position = "fill") + scale_y_continuous(labels = percent) 
+g1.1 <- g1.1 + geom_text(aes(label=Percentage,y=Percentage/100), position = "stack",vjust = 1.25, size=2.5)
+g1.1 <- g1.1 + labs(title = "Region-Gender %age distribution", x = "Region", y =
+              "")
+g1.1
+pat_across_region_gender_percent<- patients %>% 
+  inner_join(person_address, by =c("patient_id"="add_personId")) %>% 
+  inner_join(person, by =c("patient_id"="person_id")) %>% 
+  collect(n=Inf) %>% 
+  inner_join(pat_across_region, by=c("city_village"="city_village")) 
+
+g1.2 <- ggplot(pat_across_region_gender_percent, aes(x =city_village))   
+g1.2 <- g1.2 + geom_bar(aes(y = (..count..)/sum(..count..), fill = gender))  
+g1.2 <- g1.2 + geom_text(aes(y = ((..count..)/sum(..count..)), 
+                             label = scales::percent((..count..)/sum(..count..))), 
+                         stat = "count", vjust = -0.25) 
+g1.2 <- g1.2 + scale_y_continuous(labels = percent) + labs(title = "Top 10 regions %age distribution", x = "Region", y =
+                                                     "Percent")
+g1.2
+#Percent plot
+
+#Top 10 diagnosis
 pat_diag_db.df <- person %>% 
   inner_join(obs, by = c("person_id"="person_id")) %>% 
   group_by(person_id, gender, value_coded) %>% 
@@ -92,7 +116,6 @@ pat_diag_db.df <- person %>%
 
 #Create a CSV below so that we can categorize them as chronic or non chronic
 write_csv(as.data.frame(unique(pat_diag_db.df$name)),"diagnosis_master.csv")
-
 
 pat_diag.df <- tbl_df(pat_diag_db.df) %>% 
   select(-age_personId, -add_personId, -birthdate_estimated) %>% 
@@ -125,9 +148,9 @@ g2 <-
 g2 <- g2 + scale_y_continuous(labels = comma)
 g2 <- g2 + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 print(g2)
+#Top 10 diagnosis
 
-#no dead patients in the DB in person table
-
+#Top diagnosis region distribution
 pat_diag.top_3.byregion.df <- pat_diag.df %>% 
   inner_join(pat_diag.top_10.df, by = c("diagnosis"="diagnosis")) %>% 
   group_by(diagnosis, city_village) %>% 
@@ -170,6 +193,7 @@ gg <- gg + labs(x="")
 gg <- gg + theme_bw()
 gg <- gg + theme(strip.background=element_rect(fill="black"))
 gg <- gg + theme(strip.text=element_text(color="white", face="bold")) + coord_flip()
+gg <- gg + labs(title = "BoxPlot - Age Distribution")
 print(gg)
 #histogram
 gg1 <- ggplot(age_df, aes(age, fill=gender)) + 
@@ -199,7 +223,7 @@ g4 <-
 g4 <- g4 + scale_y_continuous(labels = comma) + facet_wrap(~obs_year)
 print(g4)
 
-#get all lab results for patients having gastritis
+#Explore results: get all lab results for patients having gastritis
 patients_with_gastritis <- pat_diag.df %>% 
                             filter(diagnosis=="Gastritis") %>% 
                             select(person_id, gender)
@@ -230,7 +254,15 @@ occ_postive_cases <- obs_imp_test_res %>%
 helminth_postive_cases <- obs_imp_test_res %>% 
   filter(lab_test == "Helminths parasite/Ova/Cyst/Trophozoites", 
          person_id %in% unlist(occ_postive_cases))
-#Diabetes
+#since the population is village females we have to look upon their dietary 
+#habits whats their staple food?timing of their meals whether its only 
+#gastritis or colitis too due to worm infestation ..their housing ..rule out 
+#h.pylori infection as cause of gastritis due to lower 
+#Socioeconomic status whether they taking excess quantity of 
+#citrus substances.then stress related factors like mental agony too much work load etc..
+#has to be assessed...
+
+#Chronic Diabetes
 patients_with_diabetes <- pat_diag.df %>% 
   filter(diagnosis=="Diabetes Mellitus") %>% 
   select(person_id, gender, age)
@@ -247,7 +279,8 @@ obs_lab_results_diabetes <- conDplyr %>%
                                    value_text, comments, obs_datetime) %>% 
                             rename(lab_test = name)
 
-diab_hb <- obs_lab_results_diabetes %>% filter(lab_test=="Haemoglobin (Blood)", value_numeric<=11)
+diab_hb <- obs_lab_results_diabetes %>% 
+  filter(lab_test=="Haemoglobin (Blood)", value_numeric<=11)
 
 diab_hba1c_hb <- obs_lab_results_diabetes %>% 
   filter(lab_test =="HbA1c") %>% 
@@ -288,12 +321,15 @@ scatter_plot_2 + geom_point()+ geom_smooth(method = "lm", se = TRUE)
 #lets draw a line plot to make it more clear
 line_plot_1 <- ggplot(obs_HB_results, aes(x=age, y=HB_value))
 line_plot_1 <- line_plot_1 + geom_line(size=1, aes(color=gender))
+line_plot_1 <- line_plot_1 +  labs(title = "Line Plot - Age vs Hemoglobin")
 line_plot_1
-#Lets add a facet wrap for male and female separately
-scatter_plot_3 <- ggplot(obs_HB_results, aes(x=age, y=HB_value))
+#Lets add a facet wrap for male and female separately for 12 to 18 age group
+scatter_plot_3 <- ggplot(obs_HB_results  %>% 
+                           filter(age>=12, age <=18), aes(x=age, y=HB_value))
 scatter_plot_3 <- scatter_plot_3 + geom_point(size=1, color = "blue") 
 scatter_plot_3 <- scatter_plot_3 + geom_hline(yintercept = 12, color="red")  
-scatter_plot_3 + facet_wrap(~gender)
+scatter_plot_3<- scatter_plot_3 + facet_wrap(~gender) + labs(title = "Scatter Plot - Age vs Hemoglobin for 12 to 18 years")
+scatter_plot_3
 # number_of_teenagers <- person %>% 
 #                         filter(!is.na(birthdate)) %>% 
 #                         collect(n=Inf) %>% 
@@ -304,11 +340,9 @@ number_of_teenagers <- obs_HB_results %>%
                         filter(age>=12, age <=18) %>% 
                         group_by(gender) %>% 
                         summarise(count = n())
+
+install_load("gridExtra")
+
+grid.arrange(g1, g1.1, g1.2, g3,gg, gg1 ,g4,line_plot_1,scatter_plot_3,top = "Bahmni Exploratory Data Analysis")
+
 dbDisconnect(conDplyr$con)
-#since the population is village females we have to look upon their dietary 
-#habits whats their staple food?timing of their meals whether its only 
-#gastritis or colitis too due to worm infestation ..their housing ..rule out 
-#h.pylori infection as cause of gastritis due to lower 
-#Socioeconomic status whether they taking excess quantity of 
-#citrus substances.then stress related factors like mental agony too much work load etc..
-#has to be assessed...
