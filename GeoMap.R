@@ -29,6 +29,12 @@ person_address <- conDplyr %>%
   mutate(date_created = ymd_hms(date_created)) %>% 
   filter(year(date_created) >=2015 , month(date_created) >=3)
 
+person_address_group <- person_address %>% 
+                        group_by(city_village) %>% 
+                        summarise(count = n())
+
 write_csv(person_address,"bayalpata_pat_map.csv")
+
+tmp <- geocode("Sanfebagar municipality, Achham", source=c("dsk"))
 
 qmap(location = "Achham District", zoom = 11)
