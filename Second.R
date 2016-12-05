@@ -1,17 +1,17 @@
-install.packages("install.load")
+#install.packages("install.load")
 library(install.load)
 install_load("dplyr")
 install_load("stringr")
 install_load("lubridate")
 install_load("RMySQL")
 install_load("readr")
-install_load("ggplot2")
+install_load("ggplot2")̄
 install_load("scales")
 install_load("lubridate")
 install_load("eeptools")
 library(DBI)
 
-conDplyr = src_mysql(dbname = "openmrs", user = "root", password = "", host = "localhost")
+conDplyr <- src_mysql(dbname = "openmrs", user = "root", password = "", host = "localhost")
 
 
 person <- conDplyr %>% 
