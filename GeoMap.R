@@ -12,6 +12,11 @@ install_load("eeptools")
 install_load("ggmap")
 library(DBI)
 
+simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2),
+        sep="", collapse=" ")
+}
 conDplyr = src_mysql(dbname = "openmrs", user = "root", password = "", host = "localhost")
 
 person <- conDplyr %>% 
@@ -26,15 +31,40 @@ person_address <- conDplyr %>%
   filter(voided == 0) %>% 
   collect(n=Inf) %>% 
   inner_join(person,by=c("add_personId"="person_id")) %>% 
-  mutate(date_created = ymd_hms(date_created)) %>% 
+  mutate(date_created = ymd_hms(date_created),
+         city_village = sapply(city_village, simpleCap)) %>% 
   filter(year(date_created) >=2015 , month(date_created) >=3)
 
-person_address_group <- person_address %>% 
+person_address_group <- as.data.frame(person_address %>% 
                         group_by(city_village) %>% 
-                        summarise(count = n())
+                        summarise(count = n()) %>% 
+                        arrange(desc(count)) %>% 
+                        filter(count >=10) %>% 
+                        mutate(city_village = 
+                                 case_when(
+                                          (.$city_village == "Baradadevi") ~ "Baradadivi",
+                                          (.$city_village == "Batulasain") ~ "Batulasen",
+                                          (.$city_village == "Chaphamandaun") ~ "Chaphamandau",
+                                          (.$city_village == "Mastabandali") ~ "Mashtanamdali",
+                                          (.$city_village == "Mastamandaun") ~ "Mastamandau",
+                                          (.$city_village == "Hattikot") ~ "Hatikot",
+                                          (.$city_village == "Ghodasain") ~ "Dhodasain",
+                                          (.$city_village == "Kamalbazar Municipality") ~ "Kamal Bazar",
+                                          (.$city_village == "Attariya Municipality") ~ "Attariya",
+                                          TRUE ~ .$city_village
+                                          )
+                              ) %>% 
+                        mutate(address = paste(city_village, " ", "Nepal"))) %>% 
+                        mutate_geocode(address) %>% 
+                        na.omit()
+
+
+                        
+
+write_csv(person_address_group, "distinct_city_villages_since_Mar_2015.csv")
 
 write_csv(person_address,"bayalpata_pat_map.csv")
 
-tmp <- geocode("Sanfebagar municipality, Achham", source=c("dsk"))
 
-qmap(location = "Achham District", zoom = 11)
+
+#qmap(location = "Achham District", zoom = 11)
