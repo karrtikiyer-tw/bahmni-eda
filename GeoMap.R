@@ -39,6 +39,9 @@ person_address_group <- as.data.frame(person_address %>%
                         group_by(city_village) %>% 
                         summarise(count = n()) %>% 
                         arrange(desc(count)) %>% 
+                        mutate(inv_rank = dense_rank(desc(count))) %>% 
+                        #top_n(10, wt = count) %>% 
+                        #arrange(inv_rank) %>% 
                         filter(count >=10) %>% 
                         mutate(city_village = 
                                  case_when(
@@ -54,9 +57,11 @@ person_address_group <- as.data.frame(person_address %>%
                                           TRUE ~ .$city_village
                                           )
                               ) %>% 
-                        mutate(address = paste(city_village, " ", "Nepal"))) %>% 
+                        mutate(address = paste(city_village, " ", "Achham"," ","Nepal"))) %>% 
                         mutate_geocode(address) %>% 
                         na.omit()
+
+
 
 person_address <- person_address %>% 
                               mutate(city_village = 
@@ -79,13 +84,15 @@ person_address <- person_address %>%
 
 write_csv(person_address_group, "distinct_city_villages_since_Mar_2015.csv")
 
-write_csv(person_address,"bayalpata_pat_map.csv")
+
 
 person_address_final <- person_address %>% 
   inner_join(person_address_group, by=c("city_village"="city_village")) %>% 
   select(-count)
 
-achham_map_g_str <- get_map(location = "Achham, Nepal", maptype="terrain",zoom = 13)
+write_csv(person_address_final,"bayalpata_pat_map.csv")
+
+achham_map_g_str <- get_map(location = "Achham, Nepal", maptype="roadmap", zoom=11)
 
 gmap1 <- ggmap(achham_map_g_str, extent = "device") 
 gmap1 <- gmap1 + geom_density2d(data = person_address_final, 
@@ -95,15 +102,20 @@ gmap1 <- gmap1 + stat_density2d(data = person_address_final,
                                 size = 0.01, 
                                 bins = 16, geom = "polygon") 
 gmap1 <- gmap1 + scale_fill_gradient(low = "green", high = "red") 
-gmap1 <- gmap1 + scale_alpha(range = c(0, 0.3), guide = FALSE)
+gmap1 <- gmap1 + scale_alpha(range = c(0, 0.5), guide = FALSE)
 gmap1
+
 bb <- attr(achham_map_g_str, "bb")
+bb$ll.lat <- min(person_address_final$lat)
+bb$ll.lon <- min(person_address_final$lon)
+bb$ur.lon <- max(person_address_final$lon)
+bb$ur.lat <- max(person_address_final$lat)
 bbox <- bb2bbox(bb)
 
 # use the bounding box to get a stamen map
 #stamMap <- get_stamenmap(bbox)
 #mymap <- get_map(location = c(28.747002,81.921352,29.461203,80.818646), source = "osm")
-mymap <- get_map(location = bbox, source = "osm", maptype = "terrain-labels" ,zoom = 13)
+mymap <- get_map(location = bbox, source = "osm", maptype = "roadmap")
 
 gmap1.1 <- ggmap(mymap, extent = "device") 
 gmap1.1 <- gmap1.1 + geom_density2d(data = person_address_final, 
@@ -112,8 +124,8 @@ gmap1.1 <- gmap1.1 + stat_density2d(data = person_address_final,
                                 aes(x = lon, y = lat, fill = ..level.., alpha = ..level..), 
                                 size = 0.01, 
                                 bins = 16, geom = "polygon") 
-gmap1.1 <- gmap1.1 + scale_fill_gradient(low = "green", high = "red") 
-gmap1.1 <- gmap1.1 + scale_alpha(range = c(0, 0.3), guide = FALSE)
+gmap1.1 <- gmap1.1 + scale_fill_gradient(low = "yellow", high = "red") 
+gmap1.1 <- gmap1.1 + scale_alpha(range = c(0, 0.3), guide = F)
 gmap1.1
 
 
@@ -129,3 +141,4 @@ gmap2.1 <- gmap2.1 + geom_point(aes(x = lon, y = lat), colour = "red",
                             alpha = 0.1, size = 2, data = person_address_final)
 gmap2.1
 #qmap(location = "Achham District", zoom = 11)
+write_csv(person_address_final,"bayalpata_pat_map.csv")
