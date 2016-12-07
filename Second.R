@@ -5,11 +5,17 @@ install_load("stringr")
 install_load("lubridate")
 install_load("RMySQL")
 install_load("readr")
-install_load("ggplot2")̄
+install_load("ggplot2")
 install_load("scales")
 install_load("lubridate")
 install_load("eeptools")
 library(DBI)
+
+simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2),
+        sep="", collapse=" ")
+}
 
 conDplyr <- src_mysql(dbname = "openmrs", user = "root", password = "", host = "localhost")
 
@@ -36,14 +42,14 @@ conceptnames <- conDplyr %>%
 
 person_address <- conDplyr %>% 
   tbl("person_address") %>% 
-  select(person_id, city_village) %>% 
-  rename(add_personId = person_id) 
+  select(person_id, city_village, date_created) %>% 
+  rename(add_personId = person_id, date_enrolled = date_created) 
 
 person_age <- conDplyr %>% 
   tbl("person") %>% 
   filter(voided == 0) %>% 
   select(person_id, birthdate, birthdate_estimated) %>% 
-  rename(age_personId = person_id)
+  rename(age_personId = person_id) 
 
 patients <- conDplyr %>% 
   tbl("patient") %>% 
@@ -52,9 +58,12 @@ patients <- conDplyr %>%
 #patient trend across different regions/villages
 pat_across_region <- patients %>% 
                     inner_join(person_address, by =c("patient_id"="add_personId")) %>% 
+                    collect(n=Inf) %>%
+                    mutate(date_enrolled = ymd_hms(date_enrolled),
+                           city_village = sapply(city_village, simpleCap)) %>% 
+                    filter(year(date_enrolled) >=2015 , month(date_enrolled) >=3) %>% 
                     group_by(city_village) %>% 
                     summarise(Count = n()) %>% 
-                    collect(n=Inf) %>% 
                     arrange(city_village, desc(Count)) %>% 
                     mutate(inv_rank = dense_rank(desc(Count))) %>% 
                     top_n(10, wt = Count) %>% 
@@ -63,9 +72,13 @@ pat_across_region <- patients %>%
 pat_across_region_gender<- patients %>% 
                           inner_join(person_address, by =c("patient_id"="add_personId")) %>% 
                           inner_join(person, by =c("patient_id"="person_id")) %>% 
+                          collect(n=Inf) %>%
+                          mutate(date_enrolled = ymd_hms(date_enrolled),
+                                 city_village = sapply(city_village, simpleCap)) %>% 
+                          filter(year(date_enrolled) >=2015 , month(date_enrolled) >=3) %>% 
                           group_by(city_village, gender) %>% 
                           summarise(PatCount = n()) %>% 
-                          collect(n=Inf) %>% 
+                          #collect(n=Inf) %>% 
                           inner_join(pat_across_region, by=c("city_village"="city_village")) %>% 
                           mutate(Percentage = round((PatCount/Count)*100,2)) %>% 
                           select(city_village, gender, PatCount, Percentage)
@@ -85,7 +98,8 @@ g1.1 <- g1.1 + geom_bar(position = "fill") + scale_y_continuous(labels = percent
 g1.1 <- g1.1 + geom_text(aes(label=Percentage,y=Percentage/100), position = "stack",vjust = 1.25, size=2.5)
 g1.1 <- g1.1 + labs(title = "Region-Gender %age distribution", x = "Region", y =
               "")
-g1.1
+g1.1 + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
 pat_across_region_gender_percent<- patients %>% 
   inner_join(person_address, by =c("patient_id"="add_personId")) %>% 
   inner_join(person, by =c("patient_id"="person_id")) %>% 
@@ -99,7 +113,7 @@ g1.2 <- g1.2 + geom_text(aes(y = ((..count..)/sum(..count..)),
                          stat = "count", vjust = -0.25) 
 g1.2 <- g1.2 + scale_y_continuous(labels = percent) + labs(title = "Top 10 regions %age distribution", x = "Region", y =
                                                      "Percent")
-g1.2
+g1.2 + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 #Percent plot
 
 #Top 10 diagnosis

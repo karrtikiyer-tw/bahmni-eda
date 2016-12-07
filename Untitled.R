@@ -25,3 +25,14 @@ GNresult <- sapply(cities, GNsearchAF)
 GNresult <- do.call("rbind", GNresult)  
 GNresult <- cbind(city=row.names(GNresult),  
                   subset(GNresult, select=c("lng", "lat", "adminName1")))  
+
+tmp <- round(geocode("Sanfebagar Nepal"), 4)
+geocode("Baradadivi Nepal")
+tmp1 <- as.numeric( geocode("Kailashmandau, Bājura"))
+
+df <- data.frame(
+  address = c("1600 Pennsylvania Avenue, Washington DC", "", "houston texas"),
+  stringsAsFactors = FALSE
+)
+
+df %>% mutate_geocode(address)
